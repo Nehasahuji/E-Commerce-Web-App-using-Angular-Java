@@ -2,10 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    // added for removing data warning
     "strictPropertyInitialization": false,
-    // //added for the no implicit call
-    "noImplicitAny": false,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
