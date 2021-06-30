@@ -11,7 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductListComponent implements OnInit {
   products: Product[];
   currentCategoryId: number;
-  currentCategoryName: string;
+
   seacrhMode: boolean;
 
   constructor(
@@ -40,8 +40,7 @@ export class ProductListComponent implements OnInit {
 
     //now search the product using keyword
 
-    this.productService.searchProducts(theKeyword).subscribe(
-      data => {
+    this.productService.searchProducts(theKeyword).subscribe((data) => {
       this.products = data;
       console.log(data);
     });
@@ -56,14 +55,9 @@ export class ProductListComponent implements OnInit {
       //get the id param string. convert string to number " using +" symbol
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
       console.log(this.currentCategoryId);
-
-      //get the name param string.
-      this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
-      console.log(this.currentCategoryName);
     } else {
       //not category id is availbale  ... defaukr to category id 1
       this.currentCategoryId = 1;
-      this.currentCategoryName = 'Books';
     }
     this.productService
       .getProductList(this.currentCategoryId)
