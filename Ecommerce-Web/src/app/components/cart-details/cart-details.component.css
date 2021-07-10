@@ -1,0 +1,25 @@
+button {
+    display: inline-block;
+    padding: 15px 20px;
+    /* font-size: 10px; */
+    cursor: pointer;
+    /* text-align: center; */
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: blue;
+    border: none;
+    /* border-radius: 15px; */
+    /* box-shadow: 0 9px #999; */
+    height: 44px;
+    
+
+  }
+  
+  button:hover {background-color: blue}
+  
+  button:active {
+    background-color: blue;
+    box-shadow: 0 5px grey;
+    transform: translateY(4px);
+  }
