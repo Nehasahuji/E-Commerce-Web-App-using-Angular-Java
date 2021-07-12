@@ -23,7 +23,7 @@ export class CheckoutComponent implements OnInit {
   creditCardMonth : number[] = [];
 
   // inject form builder
-  constructor(private formBuilder: FormBuilder ,private shopforservice : ShopFormService ) {}
+  constructor(private formBuilder: FormBuilder ,private shopformservice : ShopFormService ) {}
 
   ngOnInit(): void {
     // created afrom group
@@ -73,7 +73,7 @@ export class CheckoutComponent implements OnInit {
       const startMonth:number = new Date().getMonth()+1;
       console.log("startMonth " +startMonth);
 
-      this.shopforservice.getCreditCardMonths(startMonth).subscribe(
+      this.shopformservice.getCreditCardMonths(startMonth).subscribe(
         data=>{
           console.log("Retrive credit card month :" + JSON.stringify(data));
           this.creditCardMonth=data;
@@ -83,7 +83,7 @@ export class CheckoutComponent implements OnInit {
 
     //populate the credit card year
 
-    this.shopforservice.getCreditCardYears().subscribe(
+    this.shopformservice.getCreditCardYears().subscribe(
       data=>{
         console.log("Retrive credit card yeard :" + JSON.stringify(data) );
         this.creditCardYear=data;
@@ -114,5 +114,31 @@ export class CheckoutComponent implements OnInit {
       'the email address is ' +
         this.checkoutFormGroup.get('customer')!.value.email
     );
+  }
+
+
+  handleMonthsAndYears(){
+    const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
+    const currentYear :number = new Date().getFullYear();
+    const selectedYEar : number = Number(creditCardFormGroup?.value.expirationYear );
+
+
+    //if the current year equals the selected year,then start with the current month
+
+    let startMonth:number;
+
+    if(currentYear === selectedYEar){
+      startMonth=new Date().getMonth()+1;
+    }else{
+      startMonth=1;
+    }
+
+
+    this.shopformservice.getCreditCardMonths(startMonth).subscribe(
+      data =>{
+            console.log("retrive credit card months " + JSON.stringify(data));
+            this.creditCardMonth=data;
+      }
+    )
   }
 }
