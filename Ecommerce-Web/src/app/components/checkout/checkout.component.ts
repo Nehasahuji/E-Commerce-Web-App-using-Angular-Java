@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupName } from '@angular/forms';
+import { Country } from 'src/app/common/country';
+import { State } from 'src/app/common/state';
 import { ShopFormService } from 'src/app/services/shop-form.service';
 
 @Component({
@@ -11,19 +13,26 @@ export class CheckoutComponent implements OnInit {
   // crated checkout form group
   checkoutFormGroup: FormGroup;
 
-  totalPrice:number;
-  totalQuantity:number;
-
+  totalPrice: number;
+  totalQuantity: number;
 
   //array for credit card years
 
-   creditCardYear : number[] = [];
+  creditCardYear: number[] = [];
 
   //array for credit card month
-  creditCardMonth : number[] = [];
+  creditCardMonth: number[] = [];
+
+  countries: Country[] = [];
+
+  shippingAddressStates: State[] = [];
+  billingAddressStates: State[] = [];
 
   // inject form builder
-  constructor(private formBuilder: FormBuilder ,private shopformservice : ShopFormService ) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private shopformservice: ShopFormService
+  ) {}
 
   ngOnInit(): void {
     // created afrom group
@@ -65,45 +74,46 @@ export class CheckoutComponent implements OnInit {
       }),
     });
 
-
-
     // populate the credit card month
 
+    const startMonth: number = new Date().getMonth() + 1;
+    console.log('startMonth ' + startMonth);
 
-      const startMonth:number = new Date().getMonth()+1;
-      console.log("startMonth " +startMonth);
-
-      this.shopformservice.getCreditCardMonths(startMonth).subscribe(
-        data=>{
-          console.log("Retrive credit card month :" + JSON.stringify(data));
-          this.creditCardMonth=data;
-        }
-      );
-      
+    this.shopformservice.getCreditCardMonths(startMonth).subscribe((data) => {
+      console.log('Retrive credit card month :' + JSON.stringify(data));
+      this.creditCardMonth = data;
+    });
 
     //populate the credit card year
 
-    this.shopformservice.getCreditCardYears().subscribe(
-      data=>{
-        console.log("Retrive credit card yeard :" + JSON.stringify(data) );
-        this.creditCardYear=data;
-        
-      }
-    )
-           
+    this.shopformservice.getCreditCardYears().subscribe((data) => {
+      console.log('Retrive credit card yeard :' + JSON.stringify(data));
+      this.creditCardYear = data;
+    });
 
+    ///populate the countriees
 
-
+    this.shopformservice.getCountries().subscribe((data) => {
+      console.log('Retrive Countries: ' + JSON.stringify(data));
+      this.countries = data;
+    });
   }
 
   copyShippingAddressToBillingAddress(event) {
     if (event.target.checked) {
       this.checkoutFormGroup.controls.billingAddress.setValue(
         this.checkoutFormGroup.controls.shippingAddress.value
+   
       );
-    }
-    else{
+
+
+      //bug Fix for states
+
+      this.billingAddressStates=this.shippingAddressStates;
+       
+    } else {
       this.checkoutFormGroup.controls.billingAddress.reset();
+      this.billingAddressStates=[];
     }
   }
 
@@ -114,31 +124,62 @@ export class CheckoutComponent implements OnInit {
       'the email address is ' +
         this.checkoutFormGroup.get('customer')!.value.email
     );
+   
+    console.log(
+      'the shipping address country is ' +
+        this.checkoutFormGroup.get('ShippingAddress')!.value.country.name
+    );
+
+    console.log(
+      'the shipping address sate is ' +
+        this.checkoutFormGroup.get('ShippingAddress')!.value.state.name
+    );
   }
 
-
-  handleMonthsAndYears(){
+  handleMonthsAndYears() {
     const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
-    const currentYear :number = new Date().getFullYear();
-    const selectedYEar : number = Number(creditCardFormGroup?.value.expirationYear );
-
+    const currentYear: number = new Date().getFullYear();
+    const selectedYEar: number = Number(
+      creditCardFormGroup?.value.expirationYear
+    );
 
     //if the current year equals the selected year,then start with the current month
 
-    let startMonth:number;
+    let startMonth: number;
 
-    if(currentYear === selectedYEar){
-      startMonth=new Date().getMonth()+1;
-    }else{
-      startMonth=1;
+    if (currentYear === selectedYEar) {
+      startMonth = new Date().getMonth() + 1;
+    } else {
+      startMonth = 1;
     }
 
+    this.shopformservice.getCreditCardMonths(startMonth).subscribe((data) => {
+      console.log('retrive credit card months ' + JSON.stringify(data));
+      this.creditCardMonth = data;
+    });
+  }
 
-    this.shopformservice.getCreditCardMonths(startMonth).subscribe(
-      data =>{
-            console.log("retrive credit card months " + JSON.stringify(data));
-            this.creditCardMonth=data;
+  getStates(formGroupName: string) {
+    const FormGroup = this.checkoutFormGroup.get(formGroupName);
+    const countryCode = FormGroup?.value.country.code;
+    const countryName = FormGroup?.value.country.name;
+
+    console.log(`${formGroupName} country code : ${countryCode} `);
+    console.log(`${formGroupName} country Name : ${countryName} `);
+
+    this.shopformservice.getStates(countryCode).subscribe((data) => {
+      if (formGroupName === 'shippingAddress') {
+        this.shippingAddressStates = data;
+      } else {
+        this.billingAddressStates = data;
       }
-    )
+
+
+    //select the first item by default
+
+    FormGroup?.get('state')?.setValue(data[0]);
+
+
+    });
   }
 }
