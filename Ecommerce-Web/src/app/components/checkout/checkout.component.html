@@ -17,6 +17,25 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName='firstName' type="text">
+
+                                <!-- validation started for forst name -->
+                                <!-- invalid => is invalid
+                                dirty => did user change the value
+                                  touched => did field lose focus -->
+                                <div *ngIf="firstName?.invalid && (firstName?.dirty||firstName?.touched)"
+                                    class="alert alert-danger mt-1"> 
+
+                                    <!-- field is not blank -->
+                                    <div *ngIf="firstName?.errors?.required">
+                                        First Name is required
+                                    </div>
+
+                                    <!-- for min length -->
+                                    <div *ngIf="firstName?.errors?.minlength">
+                                        First Name must be at least 2 character long
+                                    </div>
+                                </div> 
+                                 <!-- validation ends for first name -->
                             </div>
 
                         </div>
@@ -31,6 +50,23 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName='lastName' type="text">
+                               
+                                <!-- added validation for last name -->
+                                <div *ngIf="lastName?.invalid && (lastName?.dirty||lastName?.touched)"
+                                    class="alert alert-danger mt-1"> 
+
+                                    <!-- field is not blank -->
+                                    <div *ngIf="lastName?.errors?.required">
+                                        Last Name is required
+                                    </div>
+
+                                    <!-- for min length -->
+                                    <div *ngIf="lastName?.errors?.minlength">
+                                        Last Name must be at least 2 character long
+                                    </div>
+
+                                    <!-- validation ends for last name -->
+                                </div> 
                             </div>
                         </div>
                     </div>
@@ -44,6 +80,24 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName='email' type="text">
+                                 
+                                <!-- validation starts for email -->
+                                <div *ngIf="email?.invalid && (email?.dirty||email?.touched)"
+                                    class="alert alert-danger mt-1"> 
+
+                                    <!-- field is not blank -->
+                                    <div *ngIf="email?.errors?.required">
+                                          email is required
+                                    </div>
+
+                                    <!-- for min length -->
+                                    <div *ngIf="email?.errors?.pattern">
+                                        Email must be valid email address
+                                    </div>
+                                </div> 
+
+                                <!-- validation ends for email -->
+                                
                             </div>
                         </div>
                     </div>
@@ -205,7 +259,7 @@
                                     <option *ngFor="let state of billingAddressStates" [ngValue]="state">
                                         {{state.name}}
 
-                                    </option>   
+                                    </option>
                                 </select>
                             </div>
                         </div>
