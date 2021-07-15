@@ -26,7 +26,7 @@
                                     class="alert alert-danger mt-1"> 
 
                                     <!-- field is not blank -->
-                                    <div *ngIf="firstName?.errors?.required">
+                                    <div *ngIf="firstName?.errors?.required || firstName?.errors?.notOnlyWhiteSpace">
                                         First Name is required
                                     </div>
 
@@ -56,7 +56,7 @@
                                     class="alert alert-danger mt-1"> 
 
                                     <!-- field is not blank -->
-                                    <div *ngIf="lastName?.errors?.required">
+                                    <div *ngIf="lastName?.errors?.required || lastName?.errors?.notOnlyWhiteSpace">
                                         Last Name is required
                                     </div>
 
