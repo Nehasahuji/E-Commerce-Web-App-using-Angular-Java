@@ -9,6 +9,7 @@ import {
 import { Country } from 'src/app/common/country';
 import { State } from 'src/app/common/state';
 import { ShopFormService } from 'src/app/services/shop-form.service';
+import { ShopValidators } from 'src/app/validators/shop-validators';
 
 @Component({
   selector: 'app-checkout',
@@ -48,10 +49,12 @@ export class CheckoutComponent implements OnInit {
         firstName: new FormControl('', [
           Validators.required,
           Validators.minLength(2),
+          ShopValidators.notOnlyWithWhitespace,
         ]),
         lastName: new FormControl('', [
           Validators.required,
           Validators.minLength(2),
+          ShopValidators.notOnlyWithWhitespace,
         ]),
         email: new FormControl('', [
           Validators.required,
@@ -114,22 +117,19 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-
-
   //add getter methord
 
-  get firstName(){
+  get firstName() {
     return this.checkoutFormGroup.get('customer.firstName');
   }
 
-
   //for last name
-  get lastName(){
+  get lastName() {
     return this.checkoutFormGroup.get('customer.lastName');
   }
 
   // for email
-  get email(){
+  get email() {
     return this.checkoutFormGroup.get('customer.email');
   }
 
@@ -151,9 +151,7 @@ export class CheckoutComponent implements OnInit {
   onSubmit() {
     console.log('handling the submit button');
 
-
-
-    if(this.checkoutFormGroup.invalid){
+    if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
     }
     console.log(this.checkoutFormGroup.get('customer')!.value);
