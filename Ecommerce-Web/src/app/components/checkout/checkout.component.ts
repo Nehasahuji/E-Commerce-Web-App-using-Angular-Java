@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { Country } from 'src/app/common/country';
 import { State } from 'src/app/common/state';
+import { CartService } from 'src/app/services/cart.service';
 import { ShopFormService } from 'src/app/services/shop-form.service';
 import { ShopValidators } from 'src/app/validators/shop-validators';
 
@@ -20,8 +21,8 @@ export class CheckoutComponent implements OnInit {
   // crated checkout form group
   checkoutFormGroup: FormGroup;
 
-  totalPrice: number;
-  totalQuantity: number;
+  totalPrice: number = 0;
+  totalQuantity: number = 0;
 
   //array for credit card years
 
@@ -38,10 +39,17 @@ export class CheckoutComponent implements OnInit {
   // inject form builder
   constructor(
     private formBuilder: FormBuilder,
-    private shopformservice: ShopFormService
+    private shopformservice: ShopFormService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
+
+
+
+      // view cart details
+
+    this.reviewCartDetails();
     // created afrom group
     this.checkoutFormGroup = this.formBuilder.group({
       // created a customer group
@@ -115,10 +123,21 @@ export class CheckoutComponent implements OnInit {
       ///credit card Information
 
       creditCard: this.formBuilder.group({
-        cardType: [],
-        nameOnCard: [''],
-        cardNumber: [''],
-        securityCode: [''],
+        cardType: new FormControl('', [Validators.required]),
+
+        nameOnCard: new FormControl('', [
+          Validators.required,
+          Validators.minLength(2),
+          ShopValidators.notOnlyWithWhitespace,
+        ]),
+        cardNumber: new FormControl('', [
+          Validators.required,
+          Validators.pattern('[0-9]{16}'),
+        ]),
+        securityCode: new FormControl('', [
+          Validators.required,
+          Validators.pattern('[0-9]{3}'),
+        ]),
         expirationMonth: [''],
         expirationYear: [''],
       }),
@@ -148,6 +167,9 @@ export class CheckoutComponent implements OnInit {
       this.countries = data;
     });
   }
+
+
+  
 
   //add getter methord
 
@@ -181,14 +203,10 @@ export class CheckoutComponent implements OnInit {
     return this.checkoutFormGroup.get('shippingAddress.state');
   }
   get shippingAddressZipCode() {
-    return this.checkoutFormGroup.get('shippingAddress.zipcode');
+    return this.checkoutFormGroup.get('shippingAddress.this.zipcode');
   }
 
-
-
   ///Getter methords to acess form control
-
-
 
   get billingAddressStreet() {
     return this.checkoutFormGroup.get('billingAddress.street');
@@ -206,6 +224,21 @@ export class CheckoutComponent implements OnInit {
     return this.checkoutFormGroup.get('billingAddress.zipcode');
   }
 
+  // get method for credit card
+
+  get creditCardType() {
+    return this.checkoutFormGroup.get('creditCard.cardType');
+  }
+  get creditCardNameOnCard() {
+    return this.checkoutFormGroup.get('creditCard.nameOnCard');
+  }
+  get creditCardNumber() {
+    return this.checkoutFormGroup.get('creditCard.cardNumber');
+  }
+  get creditCardSecurityCode() {
+    return this.checkoutFormGroup.get('creditCard.securityCode');
+  }
+
   copyShippingAddressToBillingAddress(event) {
     if (event.target.checked) {
       this.checkoutFormGroup.controls.billingAddress.setValue(
@@ -219,7 +252,30 @@ export class CheckoutComponent implements OnInit {
       this.checkoutFormGroup.controls.billingAddress.reset();
       this.billingAddressStates = [];
     }
+    
   }
+
+
+
+  // review cart details
+  reviewCartDetails() {
+    // subscribe to cart service.totalQuantity
+     this.cartService.totalQuantity.subscribe(
+      totalQuantity=> this.totalQuantity = totalQuantity
+    
+     );
+
+     console.log(this.totalQuantity);
+     
+    //subscribe to cart servoce.totalProce
+
+    this.cartService.totalPrice.subscribe(
+
+      totalPrice => this.totalPrice = totalPrice
+    );
+    console.log(this.totalPrice);
+    
+}
 
   onSubmit() {
     console.log('handling the submit button');
