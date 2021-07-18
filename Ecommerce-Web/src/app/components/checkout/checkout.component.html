@@ -123,7 +123,7 @@
                                     <option *ngFor="let country of countries" [ngValue]="country">
                                         {{country.name}}
                                     </option>
-                                </select>
+                               
 
                                 <!-- validation starts for country -->
                                 <div *ngIf="shippingAddressCountry?.invalid && (shippingAddressCountry?.dirty||shippingAddressCountry?.touched)"
@@ -135,7 +135,7 @@
                                     </div>
                                 </div>
                                 <!-- validation ends for Country -->
-
+                            </select>
                             </div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                                         {{state.name}}
 
                                     </option>
-                                </select>
+                               
 
                                 <!-- validation starts for state -->
                                 <div *ngIf="shippingAddressState?.invalid && (shippingAddressState?.dirty||shippingAddressState?.touched)"
@@ -227,7 +227,7 @@
                                     </div>
                                 </div>
                                 <!-- validation ends for state -->
-
+                            </select>
                             </div>
                         </div>
                     </div>
@@ -297,7 +297,7 @@
                                     <option *ngFor="let country of countries" [ngValue]="country">
                                         {{country.name}}
                                     </option>
-                                </select>
+                               
                                 <!-- validation starts for country -->
                                 <div *ngIf="billingAddressCountry?.invalid && (billingAddressCountry?.dirty||billingAddressCountry?.touched)"
                                     class="alert alert-danger mt-1">
@@ -308,6 +308,7 @@
                                     </div>
                                 </div>
                                 <!-- validation ends for Country -->
+                            </select>
                             </div>
                         </div>
                     </div>
@@ -386,7 +387,7 @@
                                         {{state.name}}
 
                                     </option>
-                                </select>
+                                
                                 <!-- validation starts for state -->
                                 <div *ngIf="billingAddressState?.invalid && (billingAddressState?.dirty||billingAddressState?.touched)"
                                     class="alert alert-danger mt-1">
@@ -397,6 +398,7 @@
                                     </div>
                                 </div>
                                 <!-- validation ends for state -->
+                            </select>
                             </div>
                         </div>
                     </div>
@@ -455,17 +457,18 @@
                                 <select formControlName='cardType'>
                                     <option value="">Visa</option>
                                     <option value="">MasterCard</option>
-                                </select>
+                               
                                 <!-- validation starts for credit card type -->
                                 <div *ngIf="creditCardType?.invalid && (creditCardType?.dirty||creditCardType?.touched)"
                                     class="alert alert-danger mt-1">
 
                                     <!-- field is not blank -->
-                                    <div *ngIf="creditCardType?.errors?.required ">
+                                    <div *ngIf="creditCardType?.errors?.required">
                                         Credit Card Type is required
                                     </div>
                                 </div>
                                 <!-- validation ends for credit card type  -->
+                            </select>
                             </div>
                         </div>
                     </div>
