@@ -6,13 +6,16 @@ import myAppConfig from '../../config/my-app-config';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   oktaSignin: any;
   constructor(private oktaAuthService: OktaAuthService) {
     this.oktaSignin = new OktaSignIn({
       logo: 'assets/images/logo.png',
+      features: {
+        registration: true,
+      },
       baseUrl: myAppConfig.oidc.issuer.split('/oauth2')[0],
       clientId: myAppConfig.oidc.clientId,
       redirectUri: myAppConfig.oidc.redirectUri,
@@ -30,7 +33,7 @@ export class LoginComponent implements OnInit {
 
     this.oktaSignin.renderEl(
       {
-        el:  '#okta-sign-in-widget',
+        el: '#okta-sign-in-widget',
       },
       // this name should we same as div tag id login component.html,
 
