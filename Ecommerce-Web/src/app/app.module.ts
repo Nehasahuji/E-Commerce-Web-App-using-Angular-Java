@@ -25,10 +25,11 @@ import {
 
 import myAppConfig from './config/my-app-config';
 import { Router } from '@angular/router';
+import { MembersPageComponent } from './components/members-page/members-page.component';
 
 const oktaConfig = Object.assign(
   {
-    onAuthRequired: (injector) => {
+    onAuthRequired: (oktaAuth,injector) => {
       const router = injector.get(Router);
 
       // Redirect the user to your coustom login poge
@@ -50,6 +51,7 @@ const oktaConfig = Object.assign(
     CheckoutComponent,
     LoginComponent,
     LoginStatusComponent,
+    MembersPageComponent,
   ],
   imports: [
     BrowserModule,
