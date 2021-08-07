@@ -6,20 +6,31 @@ import { CartItem } from '../common/cart-item';
   providedIn: 'root',
 })
 export class CartService {
- 
   cartItems: CartItem[] = [];
 
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
-  constructor() {}
+  storage: Storage = localStorage;
+  constructor() {
+    //read the data from storage
+    let data = JSON.parse(this.storage.getItem('cartItems')!);
+
+    if (data != null) {
+      this.cartItems = data;
+
+      //compute total based on the data that is read from storage
+
+      this.computeCartTotal();
+    }
+  }
 
   addToCart(theCartItem: CartItem) {
     //check if we alreay have iteem in cart
     let alreayExistsInCart: boolean = false;
     let existingCartItem: CartItem = undefined!;
 
-   // find the item in the cart on item id
+    // find the item in the cart on item id
     if (this.cartItems.length > 0) {
       // for (let tempCartItem of this.cartItems) {
       //   if (tempCartItem.id == theCartItem.id) {
@@ -28,9 +39,11 @@ export class CartService {
       //   }
       // }
 
-    //refractor above commented code using the array.find method
+      //refractor above commented code using the array.find method
 
-    existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id === theCartItem.id)!;
+      existingCartItem = this.cartItems.find(
+        (tempCartItem) => tempCartItem.id === theCartItem.id
+      )!;
 
       //check if we found it
 
@@ -62,7 +75,21 @@ export class CartService {
     //log cart data just for debugging
 
     this.logCartData(totalPriceValue, totalQuantityValue);
+
+
+
+    //persist cart data
+    this.persistCartItems();
   }
+
+
+// persist cart items method
+
+persistCartItems(){
+  this.storage.setItem('cartItems',JSON.stringify(this.cartItems)); 
+}
+
+
   logCartData(totalPriceValue: number, totalQuantityValue: number) {
     console.log('contents of log cart');
 
@@ -81,31 +108,25 @@ export class CartService {
     console.log('------------------------------------------');
   }
 
-
   decrementQuantity(theCartItem: CartItem) {
-   
     theCartItem.quantity--;
-    if(theCartItem.quantity === 0){
+    if (theCartItem.quantity === 0) {
       this.remove(theCartItem);
-
-    }else{
+    } else {
       this.computeCartTotal();
     }
   }
   remove(theCartItem: CartItem) {
-    
     // get index of the intem in array
 
-    const itemIndex = this.cartItems.findIndex( tempCartItem => tempCartItem.id === theCartItem.id);
-  
-
+    const itemIndex = this.cartItems.findIndex(
+      (tempCartItem) => tempCartItem.id === theCartItem.id
+    );
 
     //if found remove the item from the array
-    if(itemIndex>-1){
-      this.cartItems.splice(itemIndex,1);
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
       this.computeCartTotal();
     }
-
-
   }
 }

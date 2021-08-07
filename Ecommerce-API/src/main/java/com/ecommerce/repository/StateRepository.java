@@ -13,6 +13,6 @@ import com.ecommerce.entity.State;
 @RepositoryRestResource
 public interface StateRepository extends JpaRepository<State, Integer> {
 
-	// Retrive states for a given country code
+	// Retrieve states for a given country code
 	List<State> findByCountryCode(@Param("code") String code);
 }
