@@ -8,18 +8,63 @@ button {
   outline: none;
   color: #fff;
   background-color: blue;
-  border: none;
+  border: solid;
+  border-color: black;
+  border-width: 0.2rem;
   /* border-radius: 15px; */
   /* box-shadow: 0 9px #999; */
   height: 44px;
+
+ 
   
 
 }
 
-button:hover {background-color: blue}
+button:hover {background-color: grey}
 
 button:active {
   background-color: blue;
   box-shadow: 0 5px grey;
   transform: translateY(4px);
 }
+
+
+/* .product-box{
+  
+  height: 95%;
+  width: 95%;
+
+} */
+
+
+.items{
+  
+  height:40%;
+  width: 20rem;
+  flex:inherit;
+  justify-content: center;
+
+}
+
+/* h1{
+  word-wrap: break-word
+} */
+
+
+span{
+  text-decoration: solid;
+  text-emphasis: none;
+  color: black;
+  margin-right: 1rem;
+}
+
+select{
+  margin-left: -0.5rem;
+  background-color:white;
+  color: blue;
+}
+
+
+
+
+

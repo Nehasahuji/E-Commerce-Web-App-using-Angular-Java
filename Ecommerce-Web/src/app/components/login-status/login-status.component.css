@@ -6,8 +6,6 @@
 */
 
 
-
-
 .security-btn {
     position: relative;
     right: 10px;
@@ -20,7 +18,7 @@
     background: #205b8d;
     margin-right: 0.5rem;
 
-  }
+  } 
 
 
   /* 
@@ -28,13 +26,13 @@
    Rename as .login-status-header
   */
 
-  .login-status-header {
+  /* .login-status-header {
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
     display: -ms-flexbox;
     display: flex;
-  }
+  } */
 
 
 
@@ -46,7 +44,7 @@
 
 
 
-  .login-status-user-info {
+  /* .login-status-user-info {
     line-height: 43px;
     border: 1px;
     padding: 0 17px;
@@ -57,5 +55,5 @@
     -o-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     transition: all 0.5s ease;
-  }
+  } */
 
