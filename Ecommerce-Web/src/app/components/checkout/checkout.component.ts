@@ -42,6 +42,8 @@ export class CheckoutComponent implements OnInit {
   shippingAddressStates: State[] = [];
   billingAddressStates: State[] = [];
 
+  storage: Storage = sessionStorage;
+
   // inject form builder
   constructor(
     private formBuilder: FormBuilder,
@@ -52,6 +54,9 @@ export class CheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // read the user's email from the browser storage
+
+    const theEmail = JSON.parse(this.storage.getItem('userEmail')!);
     // view cart details
 
     this.reviewCartDetails();
@@ -69,7 +74,7 @@ export class CheckoutComponent implements OnInit {
           Validators.minLength(2),
           ShopValidators.notOnlyWithWhitespace,
         ]),
-        email: new FormControl('', [
+        email: new FormControl(theEmail, [
           Validators.required,
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ]),
@@ -279,19 +284,16 @@ export class CheckoutComponent implements OnInit {
 
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
-      
     }
 
     // set up order
 
     let order = new Order();
     order.totalPrice = this.totalPrice;
-    order.totalquantity = this.totalQuantity;
+    order.totalQuantity = this.totalQuantity;
 
     console.log(order.totalPrice);
-    console.log(order.totalquantity);
-    
-    
+    console.log(order.totalQuantity);
 
     //get cart Item
     const cartItems = this.cartService.cartItems;
@@ -436,7 +438,6 @@ export class CheckoutComponent implements OnInit {
         this.shippingAddressStates = data;
       } else {
         this.billingAddressStates = data;
-       
       }
 
       //select the first item by default

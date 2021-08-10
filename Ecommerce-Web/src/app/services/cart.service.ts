@@ -11,7 +11,8 @@ export class CartService {
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
-  storage: Storage = localStorage;
+ storage: Storage = sessionStorage;
+ // storage: Storage = localStorage;
   constructor() {
     //read the data from storage
     let data = JSON.parse(this.storage.getItem('cartItems')!);
@@ -102,7 +103,7 @@ persistCartItems(){
 
     console.log(
       `totalPrice : ${totalPriceValue.toFixed(
-        2
+        
       )}, totalQuantity : ${totalQuantityValue}`
     );
     console.log('------------------------------------------');
@@ -119,9 +120,8 @@ persistCartItems(){
   remove(theCartItem: CartItem) {
     // get index of the intem in array
 
-    const itemIndex = this.cartItems.findIndex(
-      (tempCartItem) => tempCartItem.id === theCartItem.id
-    );
+    const itemIndex = this.cartItems.findIndex
+    (tempCartItem => tempCartItem.id === theCartItem.id );
 
     //if found remove the item from the array
     if (itemIndex > -1) {
