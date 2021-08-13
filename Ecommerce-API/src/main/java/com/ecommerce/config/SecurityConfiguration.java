@@ -17,7 +17,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		http.cors();
 
-//	disable CSRF sice we are not using Cookies fir session tracking
+//	disable CSRF sice we are not using Cookies fro session tracking
 		http.csrf().disable();
 
 //		force a non empty response body for 401's to make the response more friendly
