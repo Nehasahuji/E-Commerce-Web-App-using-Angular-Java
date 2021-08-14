@@ -117,12 +117,12 @@ a:hover {
 
 .page-wrapper {
   overflow: hidden;
-  background: #e5e5e5;
+  background: #FFC93C;
   padding-bottom: 8vh;
 }
 
 .page-container {
-  background: #e5e5e5;
+  background: #FFC93C;
   padding-left: 200px;
 }
 
@@ -145,7 +145,7 @@ aside.menu-sidebar.d-none.d-lg-block.clr {
  */
 
 .header-desktop {
-  background: #0da8e4;
+  background:#99154E;
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
@@ -584,7 +584,7 @@ input.au-input.au-input-xl {
  */
 
 .form-area {
-  background: #e5e5e5;
+  /* background: #e5e5e5; */
   position: relative;
   margin-bottom: 45px;
   padding: 50px 20px;
