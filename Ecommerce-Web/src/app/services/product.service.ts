@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { Product } from '../common/product';
 import { map } from 'rxjs/operators';
 import { ProductCategory } from '../common/product-category';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:8080/api/products';
-  private categoryUrl = 'http://localhost:8080/api/product_category';
+  private baseUrl = environment.ecommerceAppUrl + '/products';
+  private categoryUrl = environment.ecommerceAppUrl + '/product_category';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -25,6 +26,9 @@ export class ProductService {
     const searchUrl =
       `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}` +
       `&page=${thePage}&size=${thePageSize}`;
+
+    console.log(`getting products from -${searchUrl}`);
+
     return this.httpClient.get<GetResponceProduct>(searchUrl);
   }
 
@@ -55,7 +59,7 @@ export class ProductService {
   SearchProductPagination(
     thePage: number,
     thePageSize: number,
-    theKeyword:string
+    theKeyword: string
   ): Observable<GetResponceProduct> {
     // need to build URL based on keyword page and size
     const searchUrl =
